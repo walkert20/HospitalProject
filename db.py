@@ -19,7 +19,7 @@ class Doctor(Base):
 
 
 # Patient class
-class Paitent(Base):
+class Patient(Base):
    __tablename__ = "patient"
 
    FirstName         = Collumn(String, default = "Jane")                      #FIRST NAME OF PAITENT
@@ -68,42 +68,42 @@ def getDoctors(self):
 def deleteDoctor(self, doctor):
       return self.session.delete(doctor)
 
+#CREATES A DOCTOR WITH THE GIVEN FIRST NAME, LAST NAME, AND THEIR PROFESSION
 def addDoctor(id, first, last, profession)
    return self.session.add(Doctor(id = id, first = first, last = last, profession = profession))
 
 
 # Patient methods
 
-#GETS THE PAITENT WITH THE GIVEN ID IF ONE EXISTS
-def getPaitent(self, id):
+#GETS THE PATIENT WITH THE GIVEN ID IF ONE EXISTS
+def getPatient(self, id):
    return self.session.query(Patient)\
                  .filter_by(id = id)\
                  .one_or_none()
 
-#GIVES BACK ALL PAITENTS
-def getPaitents(self):
+#GIVES BACK ALL PATIENTS
+def getPatients(self):
    return self.session.query(Patient).all()
 
-#DELETES A GIVEN PAITENT
-def deletePaitent(self, patient):
+#DELETES A GIVEN PATIENT
+def deletePatient(self, patient):
       return self.session.delete(patient)
 
-#RETURNS A PAITENTS FIRST NAME
-def paitentFirst(self)
+#RETURNS A PATIENTS FIRST NAME
+def patientFirst(self)
    return self.session.query(Patient).first()
 
-#RETURNS A PAITENTS LAST NAME
-def PaitentLast(self)
-   pass
+#RETURNS A PATIENTS LAST NAME
+def PatientLast(self)
+   return self.session.query(Patient).last()
 
-#RETURNS A PAITENTS FULL NAME
-def PaitnetFull(self)
-   first = paitentFirst
-   last = PaitentLast
+#RETURNS A PATIENTS FULL NAME
+def PatientFull(self)
+   first = patientFirst
+   last = PatientLast
    return first + last
 
-def addPaitent(id)
+def addPatient(id)
    return self.session.add(Patient(id = id))
-
 
 #Helper methods if needed
