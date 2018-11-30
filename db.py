@@ -10,11 +10,11 @@ Base = declarative_base()
 class Doctor(Base):
    __tablename__ ="doctor"
 
-   FirstName   = Collumn(String, nullable = False)                      #THE FIRST NAME OF THE DOCTOR
-   LastName    = Collumn(String, nullable = False)                      #THE LAST NAME OF THE DOCTOR
-   profession  = Collumn(String, nullable = False)                      #THE PROFESSION OF THE DOCTOR
-   id          = Collumn(String, nullable = False, primary_key = True)  #THE ID OF THE DOCTOR CREATED BY THE SYSTEM
-   patients    = relationship("Patient", back_populates = "doctor")     #THE RELATIONSHIP BETWEEN PAITENT AND DOCTOR
+   id          = Collumn('id',String(), nullable = False, primary_key = True)  #THE ID OF THE DOCTOR CREATED BY THE SYSTEM
+   FirstName   = Collumn('first',String(), nullable = False)   				   #THE FIRST NAME OF THE DOCTOR
+   LastName    = Collumn('last',String(), nullable = False)                    #THE LAST NAME OF THE DOCTOR
+   profession  = Collumn('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
+   patients    = relationship("Patient", back_populates = "doctor")     	   #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
    
 
 
@@ -22,13 +22,13 @@ class Doctor(Base):
 class Patient(Base):
    __tablename__ = "patient"
 
-   FirstName         = Collumn(String, default = "Jane")                      #FIRST NAME OF PAITENT
-   LastName          = Collumn(String, default = "Doe")                       #LAST NAME OF PAITENT
-   id                = Collumn(String, nullable = False, primary_key = True)  #ID OF PAITENT
-   infirmnity        = Collumn(List, default = "unknown")                     #WHATS WRONG WITH THE PAINTENT
-   medication        = Collumn(List, default = "unknown")                     #WHAT MEDS THE PAITENT NEEDS
-   date of emition   = Collumn(DateTime.now(), nullable = False)              #DATE THE WERE EMITED
-   doctor            = relationship("Doctor", back_populates = "patients")    #WHAT DOCTOR/S THE PAITENT HAS
+   id                = Collumn('id',String(), nullable = False, primary_key = True)  				#ID OF PATIENT
+   FirstName         = Collumn('first',String(), default = "Jane")                      			#FIRST NAME OF PATIENT
+   LastName          = Collumn('last',String(), default = "Doe")                       				#LAST NAME OF PATIENT
+   infirmnity        = Collumn('infirmity', String(), default = "unknown")                     		#WHAT'S WRONG WITH THE PAINTENT
+   medication        = Collumn('medication', String(), default = "unknown")                     	#WHAT MEDS THE PATIENT NEEDS
+   date of emition   = Collumn('emition',DateTime.now(), nullable = False, default = datetime.now())#DATE THEY WERE EMITED
+   doctor            = relationship("Doctor", back_populates = "patients")    						#WHAT DOCTOR/S THE PATIENT HAS
    
 
 #Database and our interactions with it
