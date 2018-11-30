@@ -25,11 +25,25 @@ class Patient(Base):
    id                = Collumn('id',String(), nullable = False, primary_key = True)  				#ID OF PATIENT
    FirstName         = Collumn('first',String(), default = "Jane")                      			#FIRST NAME OF PATIENT
    LastName          = Collumn('last',String(), default = "Doe")                       				#LAST NAME OF PATIENT
-   infirmnity        = Collumn('infirmity', String(), default = "unknown")                     		#WHAT'S WRONG WITH THE PAINTENT
-   medication        = Collumn('medication', String(), default = "unknown")                     	#WHAT MEDS THE PATIENT NEEDS
-   date of emition   = Collumn('emition',DateTime.now(), nullable = False, default = datetime.now())#DATE THEY WERE EMITED
+   date of emition   = Collumn('emition',DateTime.now(), nullable = False, default = datetime.now())#DATE PATIENT WAS EMITED
+   infirmity         = relationship("Infirmity", back_populates = "illness")                    	#WHAT'S WRONG WITH THE PAINTENT
+   medication        = relationship("Medication", back_populates = "meds")                     		#WHAT MEDICATIONS THE PATIENT HAS
    doctor            = relationship("Doctor", back_populates = "patients")    						#WHAT DOCTOR/S THE PATIENT HAS
-   
+
+# Medication class
+class Medication(Base):
+	__tablename__ = "Meds"
+
+	id        = Collumn('id',String(), nullable = False, primary_key = True)  	#ID OF MEDICATION
+	name 	  = Collumn('name',String(), nullable = False)  					#NAME OF THE MEDICATION
+	meds      = relationship("Patient", back_populates = "medication")			#PATIENTS THAT HAVE THIS MEDICATION
+
+# Infirmity class
+class Infirmity(Base):
+	__tablename__ = "illness"
+	id 		 = Collumn('id',String(), nullable = False, primary_key = True)    #ID OF INFIRMITY
+	name 	 = Collumn('name',String(), nullable = False)  					   #NAME OF INFIRMITY
+	illness  = relationship("Patient", back_populates = "infirmity")		   #PATIENTS WHO HAVE THIS INFIRMITY
 
 #Database and our interactions with it
 class Db:
@@ -66,7 +80,7 @@ def getDoctors(self):
 
 #DELETES A GIVEN DOCTOR
 def deleteDoctor(self, doctor):
-      return self.session.delete(doctor)
+    self.session.delete(doctor)
 
 #CREATES A DOCTOR WITH THE GIVEN FIRST NAME, LAST NAME, AND THEIR PROFESSION
 def addDoctor(id, first, last, profession)
@@ -107,3 +121,5 @@ def addPatient(id)
    return self.session.add(Patient(id = id))
 
 #Helper methods if needed
+
+def addMed(self, )
