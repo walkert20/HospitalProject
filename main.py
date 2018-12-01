@@ -37,7 +37,16 @@ def make_json_response(content, response = 200, headers = {}):
 
 @app.route('/', methods = ['GET'])
 def patient_list():
-	pass
+	patients = db.getPatients()
+	return make_json_response({
+		"patients":[
+		{
+			"name": (patient.FirstName, patient.LastName),
+			"illness" : patient.infirmity,
+			"doctor(s)": patient.doctor
+		} for patient in patients
+		]
+		})
 
 @app.route('/<patientId>', methods = ['GET'])
 def patient_info(patientId):

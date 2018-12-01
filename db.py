@@ -17,7 +17,6 @@ class Doctor(Base):
    patients    = relationship("Patient", back_populates = "doctor")            #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
    
 
-
 # Patient class
 class Patient(Base):
    __tablename__ = "patient"
