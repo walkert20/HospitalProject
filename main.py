@@ -33,6 +33,50 @@ def make_json_response(content, response = 200, headers = {}):
    
 #### MAIN ROUTES
 
+# Patient routes
+
+@app.route('/', methods = ['GET'])
+def patient_list():
+	pass
+
+@app.route('/<patientId>', methods = ['GET'])
+def patient_info(patientId):
+	pass
+
+@app.route('/', methods = ['POST'])
+def create_patient():
+	pass
+
+@app.route('/<patientId>', methods = ['PUT'])
+def create_patient_with_id(patientId):
+	pass
+
+@app.route('/<patientId>', methods = ['DELETE'])
+def delete_patient(patientId):
+	pass
+
+
+# Doctor routes
+
+app.route('/', methods = ['GET'])
+def doctor_list():
+	pass
+
+@app.route('/<doctorId>', methods = ['GET'])
+def doctor_info(doctorId):
+	pass
+
+@app.route('/', methods = ['POST'])
+def create_doctor():
+	pass
+
+@app.route('/<doctorId>', methods = ['PUT'])
+def create_doctor_with_id(doctorId):
+	pass
+
+@app.route('/<doctorId>', methods = ['DELETE'])
+def delete_doctor(doctorId):
+	pass
 
 
 # Starts the application

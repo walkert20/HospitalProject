@@ -104,19 +104,19 @@ def deletePatient(self, patient):
     self.session.delete(patient)
 
 #RETURNS A PATIENTS FIRST NAME
-def patientFirst(self, id)
-    patient = getPatient(self, id)
-    return patient.first.one_or_none()
+#def patientFirst(self, id)
+#    patient = getPatient(self, id)
+#    return patient.first.one_or_none()
 
 #RETURNS A PATIENTS LAST NAME
-def PatientLast(self, id)
-    patient = getPatient(self, id)
-    return patient.last().one_or_none()
+#def PatientLast(self, id)
+#    patient = getPatient(self, id)
+#    return patient.last().one_or_none()
 
 #RETURNS A PATIENTS FULL NAME
-def PatientFull(self, id)
-   patient = getPatient(self, id)
-   return patient.first + patient.last
+#def PatientFull(self, id)
+#   patient = getPatient(self, id)
+#  return (patient.first, patient.last)
 
 def addPatient(self, id, first, last)
    return self.session.add(Patient(id = id, first = first, last = last))
