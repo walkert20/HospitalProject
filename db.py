@@ -11,8 +11,8 @@ class Doctor(Base):
    __tablename__ ="doctor"
 
    id          = Collumn('id',String(), nullable = False, primary_key = True)  #THE ID OF THE DOCTOR CREATED BY THE SYSTEM
-   FirstName   = Collumn('first',String(), nullable = False)                   #THE FIRST NAME OF THE DOCTOR
-   LastName    = Collumn('last',String(), nullable = False)                    #THE LAST NAME OF THE DOCTOR
+   FirstName   = Collumn('first',String(), nullable = False, default = "Mary")                   #THE FIRST NAME OF THE DOCTOR
+   LastName    = Collumn('last',String(), nullable = False, default = "Allan")                    #THE LAST NAME OF THE DOCTOR
    profession  = Collumn('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
    patients    = relationship("Patient", back_populates = "doctor")            #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
    
@@ -24,7 +24,7 @@ class Patient(Base):
    id                = Collumn('id',String(), nullable = False, primary_key = True)                 #ID OF PATIENT
    FirstName         = Collumn('first',String(), default = "Jane")                                  #FIRST NAME OF PATIENT
    LastName          = Collumn('last',String(), default = "Doe")                                    #LAST NAME OF PATIENT
-   date of emition   = Collumn('emition',DateTime.now(), nullable = False, default = datetime.now())#DATE PATIENT WAS EMITED
+   date of emition   = Collumn('emition',DateTime, nullable = False, default = datetime.now())      #DATE PATIENT WAS EMITED
    infirmity         = relationship("Infirmity", back_populates = "illness")                        #WHAT'S WRONG WITH THE PAINTENT
    medication        = relationship("Medication", back_populates = "meds")                          #WHAT MEDICATIONS THE PATIENT HAS
    doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
