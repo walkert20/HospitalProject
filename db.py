@@ -81,7 +81,7 @@ def getDoctors(self):
 def deleteDoctor(self, doctor):
     self.session.delete(doctor)
 
-#CREATES A DOCTOR WITH THE GIVEN FIRST NAME, LAST NAME, AND THEIR PROFESSION
+#CREATES A DOCTOR WITH THE GIVEN ID, FIRST NAME, LAST NAME, AND THEIR PROFESSION
 def addDoctor(self, id, first, last, profession)
     return self.session.add(Doctor(id = id, first = first, last = last, profession = profession))
 
@@ -102,29 +102,38 @@ def getPatients(self):
 def deletePatient(self, patient):
     self.session.delete(patient)
 
-#RETURNS A PATIENTS FIRST NAME
-#def patientFirst(self, id)
-#    patient = getPatient(self, id)
-#    return patient.first.one_or_none()
-
-#RETURNS A PATIENTS LAST NAME
-#def PatientLast(self, id)
-#    patient = getPatient(self, id)
-#    return patient.last().one_or_none()
-
-#RETURNS A PATIENTS FULL NAME
-#def PatientFull(self, id)
-#   patient = getPatient(self, id)
-#  return (patient.first, patient.last)
-
+#CREATEs A PATIENT WITH THE GIVEN ID, FIRST NAME, AND LAST NAME
 def addPatient(self, id, first, last)
    return self.session.add(Patient(id = id, first = first, last = last))
 
-#Helper methods if needed
+# Medication methods
 
-#def addMedication
-#def removeMedication
-#def removeALLMedication
-#def addInfirmity
-#def removeInfirmity
-# def removeAllInfirmity
+#CREATES A MEDICATION WITH THE GIVEN ID AND NAME
+def addMedication(self, id, name):
+    medication = Medication(id = id, name = name)
+    return self.session.add(medication)
+
+#RETRIEVES THE MEDICATION WITH THE GIVEN ID IF ONE EXISTS
+def getMedication(self, id):
+    return self.session.query(Medication).filter_by(id = id)\
+           .one_or_none()
+
+#DELETES THE GIVEN MEDICATION
+def removeMedication(self, medication):
+    self.session.delete(medication)
+
+# Infirmity methods
+
+#CREATE AN INFIRMITY WITH THE GIVEN ID AND NAME
+def addInfirmity(self, id, name):
+    infirmity = Infirmity(id = id, name = name)
+    return self.session.add(infirmity)
+
+#RETRIEVES THE INFRIMITY WITH THE GIVEN ID IF ONE EXISTS
+def getInfirmity(self, id):
+    return self.session.query(Infirmity).filter_by(id = id)\
+           .one_or_none()
+
+#DELETES THE GIVEN INFIRMITY
+def removeInfirmity(self, infirmity):
+    self.session.delete(infirmity)
