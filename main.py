@@ -1,6 +1,5 @@
 from flask import Flask, request, make_response, json, url_for, abort
 from db import Db   # See db.py
-import utils
 import json
 
 app = Flask(__name__)

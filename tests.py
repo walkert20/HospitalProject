@@ -12,7 +12,6 @@ def makeId():
 def getHash(password):
    return md5(password.encode('utf-8')).hexdigest()
 
-
 session = db.session
 
 PATIENT_ID = makeId()
