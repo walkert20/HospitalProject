@@ -22,7 +22,7 @@ print("######  PATIENT TESTS  ######")
 # No Patients to begin with
 assert(len(db.getPatients()) == 0)
 # Creating a patient
-db.addPatient(id = PATIENT_ID, first = "Bob", last = "Mann")
+db.addPatient(id = PATIENT_ID, FirstName = "Bob", LastName = "Mann")
 assert(len(db.getPatients()) == 1)
 assert(db.getPatients()[0].FirstName == "Bob")
 assert(db.getPatients()[0].LastName == "Mann")

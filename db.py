@@ -15,7 +15,6 @@ class Doctor(Base):
    FirstName   = Column('first',String(), nullable = False, default = "Mary")                   #THE FIRST NAME OF THE DOCTOR
    LastName    = Column('last',String(), nullable = False, default = "Allan")                    #THE LAST NAME OF THE DOCTOR
    profession  = Column('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
-   
    patients    = relationship("Patient", back_populates = "doctor")            #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
    
 
@@ -27,7 +26,12 @@ class Patient(Base):
    FirstName         = Column('first',String(), default = "Jane")                                   #FIRST NAME OF PATIENT
    LastName          = Column('last',String(), default = "Doe")                                     #LAST NAME OF PATIENT
    date_of_emition   = Column('emition', DateTime, default = datetime.now())                        #DATE PATIENT WAS EMITED
-   
+   infirmityId       = Column('infirmityId', String(), ForeignKey("illness.id", ondelete="CASCADE"),
+                              nullable = False)
+   medicationId      = Column('medicationId', String(), ForeignKey("Meds.id", ondelete="CASCADE"),
+                              nullable = False)
+   doctorId          = Column('doctorId', String(), ForeignKey("doctor.id", ondelete="CASCADE"),
+                              nullable = False)
    infirmity         = relationship("Infirmity", back_populates = "illness")                        #WHAT'S WRONG WITH THE PAINTENT
    medication        = relationship("Medication", back_populates = "meds")                          #WHAT MEDICATIONS THE PATIENT HAS
    doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
@@ -38,15 +42,13 @@ class Medication(Base):
 
     id        = Column('id',String(), nullable = False, primary_key = True)    #ID OF MEDICATION
     name      = Column('name',String(), nullable = False)                      #NAME OF THE MEDICATION
-    
     meds      = relationship("Patient", back_populates = "medication")          #PATIENTS THAT HAVE THIS MEDICATION
 
 # Infirmity class
 class Infirmity(Base):
     __tablename__ = "illness"
     id       = Column('id',String(), nullable = False, primary_key = True)    #ID OF INFIRMITY
-    name     = Column('name',String(), nullable = False)                      #NAME OF INFIRMITY
-    
+    name     = Column('name',String(), nullable = False)                      #NAME OF INFIRMITY 
     illness  = relationship("Patient", back_populates = "infirmity")           #PATIENTS WHO HAVE THIS INFIRMITY
 
 #Database and our interactions with it
@@ -87,8 +89,8 @@ class Db:
       self.session.delete(doctor)
 
 #CREATES A DOCTOR WITH THE GIVEN ID, FIRST NAME, LAST NAME, AND THEIR PROFESSION
-   def addDoctor(self, id, first, last, profession):
-      return self.session.add(Doctor(id = id, first = first, last = last, profession = profession))
+   def addDoctor(self, id, FirstName, LastName, profession):
+      return self.session.add(Doctor(id = id, FirstName = Firstname, lastName = LastName, profession = profession))
 
 
 # Patient methods
@@ -108,8 +110,8 @@ class Db:
       self.session.delete(patient)
 
 #CREATEs A PATIENT WITH THE GIVEN ID, FIRST NAME, AND LAST NAME
-   def addPatient(self, id, first, last):
-      return self.session.add(Patient(id = id, first = first, last = last))
+   def addPatient(self, id, FirstName, LastName):
+      return self.session.add(Patient(id = id, FirstName = FirstName, LastName = LastName))
 
 # Medication methods
 
