@@ -26,8 +26,7 @@ class Patient(Base):
    FirstName         = Column('first',String(), default = "Jane")                                   #FIRST NAME OF PATIENT
    LastName          = Column('last',String(), default = "Doe")                                     #LAST NAME OF PATIENT
    date_of_emition   = Column('emition', DateTime, default = datetime.now())                        #DATE PATIENT WAS EMITED
-   doctorId          = Column('doctorId', String(), ForeignKey("doctor.id", ondelete="CASCADE"),
-                              nullable = False)
+   doctorId          = Column('doctorId', String(), ForeignKey("doctor.id", ondelete = "CASCADE"))
    infirmity         = Column('infirmity', String(), default = None)
    medication        = Column('medication', String(), default = None)
    doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
@@ -72,7 +71,12 @@ class Db:
 
 #CREATES A DOCTOR WITH THE GIVEN ID, FIRST NAME, LAST NAME, AND THEIR PROFESSION
    def addDoctor(self, id, FirstName, LastName, profession):
-      return self.session.add(Doctor(id = id, FirstName = Firstname, lastName = LastName, profession = profession))
+      return self.session.add(Doctor(id = id, FirstName = FirstName, LastName = LastName, profession = profession))
+
+#CREATES A DOCTOR USING THE DEFAULT NAMES
+   def addDoctor_default(self, id, profession):
+      return self.session.add(Doctor(id = id, profession = profession))
+
 
 #SETS A DOCTOR TO A PATIENT
    def setDoctorToPatient(self, doctorId, patientId):
@@ -103,9 +107,13 @@ class Db:
    def deletePatient(self, patient):
       self.session.delete(patient)
 
-#CREATEs A PATIENT WITH THE GIVEN ID, FIRST NAME, AND LAST NAME
+#CREATES A PATIENT WITH THE GIVEN ID, FIRST NAME, AND LAST NAME
    def addPatient(self, id, FirstName, LastName):
       return self.session.add(Patient(id = id, FirstName = FirstName, LastName = LastName))
+
+#CREATES A PATIENT USING THE DEFAULT NAMES
+   def addPatient_default(self, id):
+      return self.session.add(Patient(id = id))
 
 # Medication methods
 

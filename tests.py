@@ -27,13 +27,14 @@ assert(len(db.getPatients()) == 1)
 assert(db.getPatients()[0].FirstName == "Bob")
 assert(db.getPatients()[0].LastName == "Mann")
 # Creating a patient with the default
-db.addPatient(id = 1)
+db.addPatient_default(id = 1)
 assert(len(db.getPatients()) == 2)
 patient_1 = db.getPatient(PATIENT_ID)
-assert(patient.id is not None)
-assert(patient.id == PATIENT_ID)
+assert(patient_1.id is not None)
+assert(patient_1.id == PATIENT_ID)
+assert(patient_1.FirstName == "Bob")
 patient_2 = db.getPatient(2)
-assert patient_2.id is None
+assert patient_2 is None
 patient_2 = db.getPatient(1)
 assert patient_2.FirstName == "Jane"
 assert patient_2.LastName == "Doe"
@@ -45,7 +46,7 @@ patient = db.getPatient(PATIENT_ID)
 assert(patient is None)
 # Re-creating the patient for further testing (No actual humans were harmed in the making
 # of these tests.)
-patient_1 = db.addPatient(id = PATIENT_ID, first = "Bob", last = "Mann")
+patient_1 = db.addPatient(id = PATIENT_ID, FirstName = "Bob", LastName = "Mann")
 
 
 print("######  DOCTOR TESTS  ######")
@@ -54,18 +55,19 @@ print("######  DOCTOR TESTS  ######")
 # No Doctors to begin with
 assert(len(db.getDoctors()) == 0)
 # Creating a Doctor
-db.addDoctor(id = DOCTOR_ID, first = "Jane", last = "Doe")
+db.addDoctor(id = DOCTOR_ID, FirstName = "Jane", LastName = "Doe", profession = "Surgen")
 assert(len(db.getDoctors()) == 1)
 assert(db.getDoctors()[0].FirstName == "Jane")
 assert(db.getDoctors()[0].LastName == "Doe")
 # Creating a Doctor with the default
-db.addDoctor(id = 1)
+db.addDoctor_default(id = 1, profession = "nurse")
 assert(len(db.getDoctors()) == 2)
 Doctor_1 = db.getDoctor(DOCTOR_ID)
-assert(Doctor.id is not None)
-assert(Doctor.id == Doctor_ID)
+assert(Doctor_1.id is not None)
+assert(Doctor_1.id == DOCTOR_ID)
+assert(Doctor_1.FirstName == "Jane")
 Doctor_2 = db.getDoctor(2)
-assert Doctor_2.id is None
+assert Doctor_2 is None
 Doctor_2 = db.getDoctor(1)
 assert(Doctor_2.FirstName == "Mary")
 assert(Doctor_2.LastName == "Allan")
@@ -77,7 +79,7 @@ Doctor = db.getDoctor(DOCTOR_ID)
 assert(Doctor is None)
 # Re-creating the Doctor for further testing (No actual humans were harmed in the making
 # of these tests.)
-Doctor_1 = db.addPatient(id = DOCTOR_ID, first = "Jane", last = "Doe")
+Doctor_1 = db.addDoctor(id = DOCTOR_ID, FirstName = "Jane", LastName = "Doe", profession = "Surgen")
 
 
 print("################ DB TESTS DONE ###################")
