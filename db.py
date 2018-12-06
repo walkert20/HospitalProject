@@ -26,30 +26,12 @@ class Patient(Base):
    FirstName         = Column('first',String(), default = "Jane")                                   #FIRST NAME OF PATIENT
    LastName          = Column('last',String(), default = "Doe")                                     #LAST NAME OF PATIENT
    date_of_emition   = Column('emition', DateTime, default = datetime.now())                        #DATE PATIENT WAS EMITED
-   infirmityId       = Column('infirmityId', String(), ForeignKey("illness.id", ondelete="CASCADE"),
-                              nullable = False)
-   medicationId      = Column('medicationId', String(), ForeignKey("Meds.id", ondelete="CASCADE"),
-                              nullable = False)
    doctorId          = Column('doctorId', String(), ForeignKey("doctor.id", ondelete="CASCADE"),
                               nullable = False)
-   infirmity         = relationship("Infirmity", back_populates = "illness")                        #WHAT'S WRONG WITH THE PAINTENT
-   medication        = relationship("Medication", back_populates = "meds")                          #WHAT MEDICATIONS THE PATIENT HAS
+   infirmity         = Column('infirmity', String(), default = None)
+   medication        = Column('medication', String(), default = None)
    doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
 
-# Medication class
-class Medication(Base):
-    __tablename__ = "Meds"
-
-    id        = Column('id',String(), nullable = False, primary_key = True)    #ID OF MEDICATION
-    name      = Column('name',String(), nullable = False)                      #NAME OF THE MEDICATION
-    meds      = relationship("Patient", back_populates = "medication")          #PATIENTS THAT HAVE THIS MEDICATION
-
-# Infirmity class
-class Infirmity(Base):
-    __tablename__ = "illness"
-    id       = Column('id',String(), nullable = False, primary_key = True)    #ID OF INFIRMITY
-    name     = Column('name',String(), nullable = False)                      #NAME OF INFIRMITY 
-    illness  = relationship("Patient", back_populates = "infirmity")           #PATIENTS WHO HAVE THIS INFIRMITY
 
 #Database and our interactions with it
 class Db:
@@ -92,6 +74,18 @@ class Db:
    def addDoctor(self, id, FirstName, LastName, profession):
       return self.session.add(Doctor(id = id, FirstName = Firstname, lastName = LastName, profession = profession))
 
+#SETS A DOCTOR TO A PATIENT
+   def setDoctorToPatient(self, doctorId, patientId):
+      doctor = getDoctor(doctorId)
+      patient = getPatient(patientId)
+      if doctor != None and patient != None:
+         patient.doctorId = doctor.id
+
+#RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
+   def getdoctorPatients(self, doctorId):
+      self.session.query(Patient).filter_by(doctorId = doctorId)\
+      .all()
+
 
 # Patient methods
 
@@ -115,32 +109,12 @@ class Db:
 
 # Medication methods
 
-#CREATES A MEDICATION WITH THE GIVEN ID AND NAME
-   def addMedication(self, id, name):
-      medication = Medication(id = id, name = name)
-      return self.session.add(medication)
+#GIVES A CERTAIN PATIENT A CERTAIN MEDICATION
+   def addMedication(self, patientId, medication):
+      patient = getPatient(patientId)
+      patient.medication = medication
 
-#RETRIEVES THE MEDICATION WITH THE GIVEN ID IF ONE EXISTS
-   def getMedication(self, id):
-      return self.session.query(Medication).filter_by(id = id)\
-           .one_or_none()
-
-#DELETES THE GIVEN MEDICATION
-   def removeMedication(self, medication):
-      self.session.delete(medication)
-
-# Infirmity methods
-
-#CREATE AN INFIRMITY WITH THE GIVEN ID AND NAME
-   def addInfirmity(self, id, name):
-      infirmity = Infirmity(id = id, name = name)
-      return self.session.add(infirmity)
-
-#RETRIEVES THE INFRIMITY WITH THE GIVEN ID IF ONE EXISTS
-   def getInfirmity(self, id):
-      return self.session.query(Infirmity).filter_by(id = id)\
-           .one_or_none()
-
-#DELETES THE GIVEN INFIRMITY
-   def removeInfirmity(self, infirmity):
-      self.session.delete(infirmity)
+#GIVES A CERTAIN PATIENT A CERTAIN INFIRMITY
+   def addInfirmity(self, patientId, infirmity):
+      patient = getPatient(patientId)
+      patient.infirmity = infirmity
