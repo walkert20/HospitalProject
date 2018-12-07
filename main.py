@@ -56,7 +56,7 @@ def patient_info(patientId, doctorId):
 	if doctor == None:
 		abort(404, "Provided doctor does not exist.")
 	if patient.doctorId != doctor.id:
-		abort(403, "You don't have that acces.")
+		abort(403, "You don't have access to this patient's file.")
 	return make_json_response({
 		"id":patient.id
 		"name": (patient.FirstName, patient.LastName),
@@ -69,11 +69,30 @@ def patient_info(patientId, doctorId):
 
 @app.route('/', methods = ['POST'])
 def create_patient():
-	pass
+	patientId = tests.makeId()
+	patients = db.getPatients()
+	ids = [patient.id for patient in patients]
+	while patientId in ids:
+		patientId = tests.makeId()
+	return create_patient_with_id(patientId)
 
 @app.route('/<patientId>', methods = ['PUT'])
 def create_patient_with_id(patientId):
-	pass
+	patients = db.getPatients()
+	ids = [patient.id for patient in patients]
+	if patientId in ids:
+		abort(403, "This patient already exists.")
+	contents = request.get_json()
+	if contents == None:
+      abort(403, "You sent nothing.")
+    FirstName = contents['FirstName']
+    LastName = contents['LastName']
+    infirmity = contents['infirmity']
+    medication = contents['medication']
+    doctor = contents['doctor']
+    db.addPatient(patientId, FirstName, LastName, infirmity, medication, docotor)
+    db.commit()
+    return make_json_response({'ok':'Patient was created successfully'}, 201)
 
 @app.route('/<patientId>', methods = ['DELETE'])
 def delete_patient(patientId):
