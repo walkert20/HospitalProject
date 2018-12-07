@@ -42,7 +42,7 @@ def patient_list():
 		{
 			"name": (patient.FirstName, patient.LastName),
 			"illness" : patient.infirmity,
-			"doctor(s)": patient.doctor
+			"doctor": patient.doctor
 		} for patient in patients
 		]
 		})
@@ -68,7 +68,16 @@ def delete_patient(patientId):
 
 app.route('/', methods = ['GET'])
 def doctor_list():
-	pass
+	doctors = db.getDoctors()
+	return make_json_response({
+		"doctors":[
+		{
+			"name": (docotr.FirstName, doctor.LastName),
+			"profession":(doctor.profession)
+			"patients":(doctor.patients)
+		} for doctor in doctors
+		]
+		})
 
 @app.route('/<doctorId>', methods = ['GET'])
 def doctor_info(doctorId):

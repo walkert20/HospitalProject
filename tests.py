@@ -53,9 +53,6 @@ assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
 # Checking medications the patient has
 assert(patient_1.medication is None)
-# Prescribing a medication
-db.addMedication(patient_1.id, "Vitamins")
-assert(patient_1.medication is not None)
 # Checking infirmities the patient has
 assert(patient_1.infirmity is None)
 
