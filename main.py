@@ -86,12 +86,12 @@ def create_doctor_with_id(doctorId):
 def delete_doctor(doctorId):
 	pass
 
-@app.route('/<doctorId>/<patientId>', methods = ['PUT'])
-def addMedication(patientId, medication):
+@app.route('/<doctorId>/<patientId>/<medication>', methods = ['PUT'])
+def addMedication(doctorId, patientId, medication):
 	pass
 
-@app.route('/<doctorId>/<patientId>', methods = ['PUT'])
-def addInfirmity(patientId, infirmity):
+@app.route('/<doctorId>/<patientId>/<infirmity>', methods = ['PUT'])
+def addInfirmity(doctorId, patientId, infirmity):
 	pass
 
 # Starts the application

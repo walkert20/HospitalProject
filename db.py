@@ -115,15 +115,3 @@ class Db:
 #CREATES A PATIENT USING THE DEFAULT NAMES
    def addPatient_default(self, id):
       return self.session.add(Patient(id = id))
-
-# Helper methods
-
-#GIVES A CERTAIN PATIENT A CERTAIN MEDICATION
-   def addMedication(self, patientId, medication):
-      patient = getPatient(patientId)
-      patient.medication = medication
-
-#GIVES A CERTAIN PATIENT A CERTAIN INFIRMITY
-   def addInfirmity(self, patientId, infirmity):
-      patient = getPatient(patientId)
-      patient.infirmity = infirmity
