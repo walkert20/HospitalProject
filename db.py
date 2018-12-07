@@ -9,13 +9,14 @@ Base = declarative_base()
 
 # Doctor class
 class Doctor(Base):
-   __tablename__ ="doctor"
+   __tablename__ = "doctor"
 
    id          = Column('id',String(), nullable = False, primary_key = True)  #THE ID OF THE DOCTOR CREATED BY THE SYSTEM
    FirstName   = Column('first',String(), nullable = False, default = "Mary")                   #THE FIRST NAME OF THE DOCTOR
    LastName    = Column('last',String(), nullable = False, default = "Allan")                    #THE LAST NAME OF THE DOCTOR
    profession  = Column('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
    patients    = relationship("Patient", back_populates = "doctor")            #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
+   #Note: doctor.patients is a list(somehow). Therefore, no patients means an empty list.
    
 
 # Patient class
@@ -26,7 +27,7 @@ class Patient(Base):
    FirstName         = Column('first',String(), default = "Jane")                                   #FIRST NAME OF PATIENT
    LastName          = Column('last',String(), default = "Doe")                                     #LAST NAME OF PATIENT
    date_of_emition   = Column('emition', DateTime, default = datetime.now())                        #DATE PATIENT WAS EMITED
-   doctorId          = Column('doctorId', String(), ForeignKey("doctor.id", ondelete = "CASCADE"))
+   doctorId          = Column('doctorId', String(), ForeignKey("doctor.id"))
    infirmity         = Column('infirmity', String(), default = None)
    medication        = Column('medication', String(), default = None)
    doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
@@ -115,7 +116,7 @@ class Db:
    def addPatient_default(self, id):
       return self.session.add(Patient(id = id))
 
-# Medication methods
+# Helper methods
 
 #GIVES A CERTAIN PATIENT A CERTAIN MEDICATION
    def addMedication(self, patientId, medication):

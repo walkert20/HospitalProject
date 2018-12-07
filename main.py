@@ -86,6 +86,13 @@ def create_doctor_with_id(doctorId):
 def delete_doctor(doctorId):
 	pass
 
+@app.route('/<doctorId>/<patientId>', methods = ['PUT'])
+def addMedication(patientId, medication):
+	pass
+
+@app.route('/<doctorId>/<patientId>', methods = ['PUT'])
+def addInfirmity(patientId, infirmity):
+	pass
 
 # Starts the application
 if __name__ == "__main__":

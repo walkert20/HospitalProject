@@ -46,7 +46,19 @@ patient = db.getPatient(PATIENT_ID)
 assert(patient is None)
 # Re-creating the patient for further testing (No actual humans were harmed in the making
 # of these tests.)
-patient_1 = db.addPatient(id = PATIENT_ID, FirstName = "Bob", LastName = "Mann")
+db.addPatient(id = PATIENT_ID, FirstName = "Bob", LastName = "Mann")
+patient_1 = db.getPatient(PATIENT_ID)
+# Checking doctors the patient has
+assert(patient_1.doctorId is None)
+assert(patient_1.doctor is None)
+# Checking medications the patient has
+assert(patient_1.medication is None)
+# Prescribing a medication
+db.addMedication(patient_1.id, "Vitamins")
+assert(patient_1.medication is not None)
+# Checking infirmities the patient has
+assert(patient_1.infirmity is None)
+
 
 
 print("######  DOCTOR TESTS  ######")
@@ -77,10 +89,11 @@ db.commit()
 db.deleteDoctor(Doctor_1)
 Doctor = db.getDoctor(DOCTOR_ID)
 assert(Doctor is None)
-# Re-creating the Doctor for further testing (No actual humans were harmed in the making
-# of these tests.)
-Doctor_1 = db.addDoctor(id = DOCTOR_ID, FirstName = "Jane", LastName = "Doe", profession = "Surgen")
-
+# Re-creating the doctor for further testing
+db.addDoctor(id = DOCTOR_ID, FirstName = "Jane", LastName = "Doe", profession = "Surgeon")
+Doctor_1 = db.getDoctor(DOCTOR_ID)
+# Checking for the patients this doctor has
+assert(Doctor_1.patients == [])
 
 print("################ DB TESTS DONE ###################")
 
