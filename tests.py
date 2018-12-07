@@ -97,6 +97,10 @@ print("################ DB TESTS DONE ###################")
 
 print("################   API TESTS   ###################")
 
+client = app.test_client()
+def get_json(r):
+   return json.loads(r.get_data().decode("utf-8"))
+
 print("######  PATIENT TESTS  ######")
 
 

@@ -47,9 +47,25 @@ def patient_list():
 		]
 		})
 
-@app.route('/<patientId>', methods = ['GET'])
-def patient_info(patientId):
-	pass
+@app.route('/<doctorId>/<patientId>', methods = ['GET'])
+def patient_info(patientId, doctorId):
+	patient = db.getPatient(patientId)
+	if patient == None:
+		abort(404, "Provided patient does not exist.")
+	doctor = db.getDoctor(doctorId)
+	if doctor == None:
+		abort(404, "Provided doctor does not exist.")
+	if patient.doctorId != doctor.id:
+		abort(403, "You don't have that acces.")
+	return make_json_response({
+		"id":patient.id
+		"name": (patient.FirstName, patient.LastName),
+		"illness" : patient.infirmity,
+		"doctor": patient.doctor,
+		"medications":patient.medication
+		"emition":patient.date_of_emition,
+		})
+
 
 @app.route('/', methods = ['POST'])
 def create_patient():
