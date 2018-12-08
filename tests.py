@@ -48,12 +48,12 @@ assert(patient is None)
 # of these tests.)
 db.addPatient(id = PATIENT_ID, FirstName = "Bob", LastName = "Mann")
 patient_1 = db.getPatient(PATIENT_ID)
-# Checking doctors the patient has
+# Checking doctors the patient has (should be none)
 assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
-# Checking medications the patient has
+# Checking medications the patient has (should be none)
 assert(patient_1.medication is None)
-# Checking infirmities the patient has
+# Checking infirmities the patient has (should be none)
 assert(patient_1.infirmity is None)
 
 

@@ -41,7 +41,6 @@ def patient_list():
 		"patients":[
 		{
 			"name": (patient.FirstName, patient.LastName),
-			"illness" : patient.infirmity,
 			"doctor": patient.doctor
 		} for patient in patients
 		]
@@ -144,7 +143,17 @@ def delete_doctor(doctorId):
 
 @app.route('/<doctorId>/<patientId>/<medication>', methods = ['PUT'])
 def addMedication(doctorId, patientId, medication):
-	pass
+	patient = db.getPatient(patientId)
+	if patient == None:
+		abort(404, "Provided patient does not exist.")
+	doctor = db.getDoctor(doctorId)
+	if doctor == None:
+		abort(404, "Provided doctor does not exist.")
+	if patient.doctorId != doctor.id:
+		abort(403, "You don't have that kind of access.")
+	#contents = request.get_json()
+	#contents['medication'] = medication
+	#db.commit()
 
 @app.route('/<doctorId>/<patientId>/<infirmity>', methods = ['PUT'])
 def addInfirmity(doctorId, patientId, infirmity):
