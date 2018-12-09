@@ -59,9 +59,9 @@ def patient_info(doctorId, patientId):
 	return make_json_response({
 		"id":patient.id
 		"name": (patient.FirstName, patient.LastName),
-		"illness" : patient.infirmity,
+		"infirmity" : patient.infirmity,
 		"doctor": patient.doctor,
-		"medications":patient.medication
+		"medication":patient.medication
 		"emition":patient.date_of_emition,
 		})
 
@@ -89,7 +89,7 @@ def create_patient_with_id(patientId):
     infirmity = contents['infirmity']
     medication = contents['medication']
     doctor = contents['doctor']
-    db.addPatient(patientId, FirstName, LastName, infirmity, medication, docotor)
+    db.addPatient(patientId, FirstName, LastName, infirmity, medication, doctor)
     db.commit()
     return make_json_response({'ok':'Patient was created successfully'}, 201)
 
@@ -141,7 +141,7 @@ def create_doctor_with_id(doctorId):
 def delete_doctor(doctorId):
 	pass
 
-@app.route('/<doctorId>/<patientId>/<medication>', methods = ['PUT'])
+@app.route('/<doctorId>/<patientId>/<medication>', methods = ['POST'])
 def addMedication(doctorId, patientId, medication):
 	patient = db.getPatient(patientId)
 	if patient == None:
@@ -151,13 +151,32 @@ def addMedication(doctorId, patientId, medication):
 		abort(404, "Provided doctor does not exist.")
 	if patient.doctorId != doctor.id:
 		abort(403, "You don't have that kind of access.")
-	#contents = request.get_json()
-	#contents['medication'] = medication
-	#db.commit()
 
-@app.route('/<doctorId>/<patientId>/<infirmity>', methods = ['PUT'])
+	patientInfo = patient_info(doctorId, patientId)
+	delete_patient(doctorId, patientId)
+	db.addPatient(patientId, patientInfo['name'][0], patientInfo['name'][1]\
+				  patientInfo['infirmity'], patientInfo['doctor'], medication\
+				  patientInfo['emition'])
+	db.commit()
+
+@app.route('/<doctorId>/<patientId>/<infirmity>', methods = ['POST'])
 def addInfirmity(doctorId, patientId, infirmity):
-	pass
+	patient = db.getPatient(patientId)
+	if patient == None:
+		abort(404, "Provided patient does not exist.")
+	doctor = db.getDoctor(doctorId)
+	if doctor == None:
+		abort(404, "Provided doctor does not exist.")
+	if patient.doctorId != doctor.id:
+		abort(403, "You don't have that kind of access.")
+
+	patientInfo = patient_info(doctorId, patientId)
+	delete_patient(doctorId, patientId)
+	db.addPatient(patientId, patientInfo['name'][0], patientInfo['name'][1]\
+				  infirmity, patientInfo['doctor'], patientInfo['medication']\
+				  patientInfo['emition'])
+	db.commit()
+
 
 # Starts the application
 if __name__ == "__main__":
