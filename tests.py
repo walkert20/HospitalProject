@@ -49,7 +49,6 @@ assert(patient_1.infirmity is None)
 db.commit()
 
 
-
 print("######  DOCTOR TESTS  ######")
 
 
@@ -85,6 +84,20 @@ Doctor_1 = db.getDoctor(DOCTOR_ID)
 assert(Doctor_1.patients == [])
 db.commit()
 
+
+# Testing setDoctorToPatient
+assert(patient_1.doctorId is None)
+assert(patient_1.doctor is None)
+db.setDoctorToPatient(DOCTOR_ID, PATIENT_ID)
+assert(patient_1.doctorId is not None)
+print(patient_1.doctorId)
+print(patient_1.doctor)
+print(Doctor_1.id)
+assert(patient_1.doctor is not None)
+
+
+# Testing getDoctorPatients
+
 print("################ DB TESTS DONE ###################")
 
 
@@ -116,12 +129,26 @@ r = client.post('/patient')
 assert(r.status_code == 403)
 r = client.post('/patient', data=json.dumps({"FirstName":"David", "LastName":"Wilks"}), content_type='application/json')
 assert(r.status_code == 201)
-
+# Testing delete patient
+#r = client.get('/patients')
+#contents = get_json(r)
+#print(contents)
+#patient = contents["patients"][-1]
 
 # testing patient_info
-r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
-assert(r.status_code == 403)
+#r = client.get( '/' + DOCTOR_ID + '/oldPatient')
+#assert(r.status_code == 404)
+#r = client.get('/DoctorId/newPatient')
+#assert(r.status_code == 404)
+#r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
+#assert(r.status_code == 404)
+#Up to this point, no patients have been assigned a doctor
 
+#r = client.get('/' + DOCTOR_ID + '/' + 1)
+#assert(r.status_code == 40)
+
+
+### Continue testing in database
 
 print("######  DOCTOR TESTS  ######")
 

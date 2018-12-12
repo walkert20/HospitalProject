@@ -17,6 +17,9 @@ class Doctor(Base):
    profession  = Column('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
    patients    = relationship("Patient", back_populates = "doctor")            #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
    #Note: doctor.patients is a list(somehow). Therefore, no patients means an empty list.
+   def __repr__(self):
+      return "Doctor<%s %s>" % (self.FirstName, self.LastName)
+
    
 
 # Patient class
@@ -31,7 +34,9 @@ class Patient(Base):
    infirmity         = Column('infirmity', String(), default = None)
    medication        = Column('medication', String(), default = None)
    doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
-
+   def __repr__(self):
+      return "Patient<%s %s %s %s %s %s>" % (self.id, self.FirstName, self.LastName,\
+                                             self.doctorId, self.infirmity, self.medication)
 
 #Database and our interactions with it
 class Db:
@@ -81,13 +86,14 @@ class Db:
 
 #SETS A DOCTOR TO A PATIENT
    def setDoctorToPatient(self, doctorId, patientId):
-      doctor = getDoctor(doctorId)
-      patient = getPatient(patientId)
+      doctor = self.getDoctor(doctorId)
+      patient = self.getPatient(patientId)
       if doctor != None and patient != None:
          patient.doctorId = doctor.id
+         patient.doctor = doctor
 
 #RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
-   def getdoctorPatients(self, doctorId):
+   def getDoctorPatients(self, doctorId):
       self.session.query(Patient).filter_by(doctorId = doctorId)\
       .all()
 

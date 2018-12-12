@@ -42,7 +42,7 @@ def patient_list():
         "patients":[
         {
             "name": (patient.FirstName, patient.LastName),
-            "doctor": patient.doctor
+            "doctor": str(patient.doctor)
         } for patient in patients
         ]
     })
@@ -52,6 +52,8 @@ def patient_info(doctorId, patientId):
     patient = db.getPatient(patientId)
     if patient == None:
         abort(404, "Provided patient does not exist.")
+    if patient.doctor == None:
+        abort(404, "Patient doesn't have a doctor. One must be provided for them.")
     doctor = db.getDoctor(doctorId)
     if doctor == None:
         abort(404, "Provided doctor does not exist.")
