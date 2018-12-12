@@ -1,16 +1,7 @@
 from main import app, db
+from utils import makeId, getHash
+import utils
 import json
-import string
-import random
-from hashlib import md5
-
-alphabet = string.ascii_uppercase + string.digits
-
-def makeId():
-   return ''.join([random.choice(alphabet) for _ in range(6)])
-
-def getHash(password):
-   return md5(password.encode('utf-8')).hexdigest()
 
 session = db.session
 
@@ -104,12 +95,32 @@ def get_json(r):
    return json.loads(r.get_data().decode("utf-8"))
 
 print("######  PATIENT TESTS  ######")
+# testing existing patients
 r = client.get('/patients')
 assert(r.status_code == 200)
 contents = get_json(r)
 assert("patients" in contents)
-print(len(contents["patients"]))
 assert(len(contents["patients"]) == 2) 		#Because of the already created patients
+# testing create a patient with ID
+r = client.put('/' + PATIENT_ID)
+assert(r.status_code == 403)
+r = client.put('/newPatient')
+assert(r.status_code == 403)
+r = client.put('/newPatient', data=json.dumps({"FirstName":"Tom"}), content_type='application/json')
+assert(r.status_code == 403)
+r = client.put('/newPatient', data=json.dumps({"FirstName":"Tom", "LastName":"Wilks"}), content_type='application/json')
+contents = get_json(r)
+assert(r.status_code == 201)
+# testing create a patient without ID
+r = client.post('/patient')
+assert(r.status_code == 403)
+r = client.post('/patient', data=json.dumps({"FirstName":"David", "LastName":"Wilks"}), content_type='application/json')
+assert(r.status_code == 201)
+
+
+# testing patient_info
+r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
+assert(r.status_code == 403)
 
 
 print("######  DOCTOR TESTS  ######")

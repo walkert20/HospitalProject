@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response, json, url_for, abort
 from db import Db   # See db.py
 import json
+import utils
 
 app = Flask(__name__)
 db = Db()
@@ -66,13 +67,13 @@ def patient_info(doctorId, patientId):
         })
 
 
-@app.route('/', methods = ['POST'])
+@app.route('/patient', methods = ['POST'])
 def create_patient():
-    patientId = tests.makeId()
+    patientId = utils.makeId()
     patients = db.getPatients()
     ids = [patient.id for patient in patients]
     while patientId in ids:
-        patientId = tests.makeId()
+        patientId = utils.makeId()
     return create_patient_with_id(patientId)
 
 @app.route('/<patientId>', methods = ['PUT'])
@@ -84,12 +85,13 @@ def create_patient_with_id(patientId):
     contents = request.get_json()
     if contents == None:
         abort(403, "You sent nothing.")
+    if 'FirstName' not in contents:
+        abort(403, "Must provide a first name.")
+    if 'LastName' not in contents:
+        abort(403, "Must include a last name.")
     FirstName = contents['FirstName']
     LastName = contents['LastName']
-    infirmity = contents['infirmity']
-    medication = contents['medication']
-    doctor = contents['doctor']
-    db.addPatient(patientId, FirstName, LastName, infirmity, medication, doctor)
+    db.addPatient(patientId, FirstName, LastName)
     db.commit()
     return make_json_response({'ok':'Patient was created successfully'}, 201)
 
@@ -129,7 +131,7 @@ def doctor_list():
 def doctor_info(doctorId):
     pass
 
-@app.route('/', methods = ['POST'])
+@app.route('/doctor', methods = ['POST'])
 def create_doctor():
     pass
 
