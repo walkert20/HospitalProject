@@ -151,6 +151,8 @@ assert(r.status_code == 200)
 #r = client.get('/patients')
 #contents = get_json(r)
 #patient = contents["patients"][-1]
+# Testing addMedication
+# testing addInfirmity
 
 
 print("######  DOCTOR TESTS  ######")
