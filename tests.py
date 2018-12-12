@@ -55,6 +55,7 @@ assert(patient_1.doctor is None)
 assert(patient_1.medication is None)
 # Checking infirmities the patient has (should be none)
 assert(patient_1.infirmity is None)
+db.commit()
 
 
 
@@ -91,6 +92,7 @@ db.addDoctor(id = DOCTOR_ID, FirstName = "Jane", LastName = "Doe", profession = 
 Doctor_1 = db.getDoctor(DOCTOR_ID)
 # Checking for the patients this doctor has
 assert(Doctor_1.patients == [])
+db.commit()
 
 print("################ DB TESTS DONE ###################")
 
@@ -102,6 +104,12 @@ def get_json(r):
    return json.loads(r.get_data().decode("utf-8"))
 
 print("######  PATIENT TESTS  ######")
+r = client.get('/patients')
+assert(r.status_code == 200)
+contents = get_json(r)
+assert("patients" in contents)
+print(len(contents["patients"]))
+assert(len(contents["patients"]) == 2) 		#Because of the already created patients
 
 
 print("######  DOCTOR TESTS  ######")

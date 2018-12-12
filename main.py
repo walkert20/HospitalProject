@@ -34,7 +34,7 @@ def make_json_response(content, response = 200, headers = {}):
 
 # Patient routes
 
-@app.route('/', methods = ['GET'])
+@app.route('/patients', methods = ['GET'])
 def patient_list():
     patients = db.getPatients()
     return make_json_response({
@@ -44,7 +44,7 @@ def patient_list():
             "doctor": patient.doctor
         } for patient in patients
         ]
-        })
+    })
 
 @app.route('/<doctorId>/<patientId>', methods = ['GET'])
 def patient_info(doctorId, patientId):
@@ -112,7 +112,7 @@ def delete_patient(doctorId, patientId):
 
 # Doctor routes
 
-app.route('/', methods = ['GET'])
+@app.route('/doctors', methods = ['GET'])
 def doctor_list():
     doctors = db.getDoctors()
     return make_json_response({
