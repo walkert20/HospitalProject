@@ -135,25 +135,23 @@ r = client.post('/patient')
 assert(r.status_code == 403)
 r = client.post('/patient', data=json.dumps({"FirstName":"David", "LastName":"Wilks"}), content_type='application/json')
 assert(r.status_code == 201)
-# Testing delete patient
-r = client.get('/patients')
-contents = get_json(r)
-patient = contents["patients"][-1]
 
 # testing patient_info
-#r = client.get( '/' + DOCTOR_ID + '/oldPatient')
-#assert(r.status_code == 404)
-#r = client.get('/DoctorId/newPatient')
-#assert(r.status_code == 404)
-#r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
-#assert(r.status_code == 404)
-#Up to this point, no patients have been assigned a doctor
+r = client.get( '/' + DOCTOR_ID + '/oldPatient')
+assert(r.status_code == 404)
+r = client.get('/DoctorId/newPatient')
+assert(r.status_code == 404)
+db.setDoctorToPatient(Doctor_2.id, patient_2.id)
+r = client.get('/' + DOCTOR_ID + '/' + patient_2.id)
+assert(r.status_code == 403)
+r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
+assert(r.status_code == 200)
 
-#r = client.get('/' + DOCTOR_ID + '/' + 1)
-#assert(r.status_code == 40)
+# Testing delete patient
+#r = client.get('/patients')
+#contents = get_json(r)
+#patient = contents["patients"][-1]
 
-
-### Continue testing in database
 
 print("######  DOCTOR TESTS  ######")
 

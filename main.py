@@ -63,9 +63,9 @@ def patient_info(doctorId, patientId):
         "id":patient.id,
         "name": (patient.FirstName, patient.LastName),
         "infirmity" : patient.infirmity,
-        "doctor": patient.doctor,
+        "doctor": str(patient.doctor),
         "medication":patient.medication,
-        "emition":patient.date_of_emition,
+        "emition":str(patient.date_of_emition),
         })
 
 
