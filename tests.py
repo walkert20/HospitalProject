@@ -96,9 +96,13 @@ assert(len(Doctor_1.patients) == 1)
 assert(Doctor_1.patients[0].id == PATIENT_ID)
 db.commit()
 
-
-
 # Testing getDoctorPatients
+assert(Doctor_2.patients == [])
+lst = db.getDoctorPatients(Doctor_2.id)
+assert(len(lst) == 0)
+lst = db.getDoctorPatients(Doctor_1.id)
+assert(len(lst) == 1)
+
 
 print("############### DB TESTS DONE ##################")
 

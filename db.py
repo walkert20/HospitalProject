@@ -94,8 +94,9 @@ class Db:
 
 #RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
    def getDoctorPatients(self, doctorId):
-      self.session.query(Patient).filter_by(doctorId = doctorId)\
-      .all()
+      doctor = self.getDoctor(doctorId)
+      return doctor.patients
+
 
 
 # Patient methods
