@@ -88,20 +88,22 @@ db.commit()
 # Testing setDoctorToPatient
 assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
+assert(Doctor_1.patients == [])
 db.setDoctorToPatient(DOCTOR_ID, PATIENT_ID)
 assert(patient_1.doctorId is not None)
-print(patient_1.doctorId)
-print(patient_1.doctor)
-print(Doctor_1.id)
 assert(patient_1.doctor is not None)
+assert(len(Doctor_1.patients) == 1)
+assert(Doctor_1.patients[0].id == PATIENT_ID)
+db.commit()
+
 
 
 # Testing getDoctorPatients
 
-print("################ DB TESTS DONE ###################")
+print("############### DB TESTS DONE ##################")
 
 
-print("################   API TESTS   ###################")
+print("###############   API TESTS   ##################")
 
 client = app.test_client()
 def get_json(r):
@@ -130,10 +132,9 @@ assert(r.status_code == 403)
 r = client.post('/patient', data=json.dumps({"FirstName":"David", "LastName":"Wilks"}), content_type='application/json')
 assert(r.status_code == 201)
 # Testing delete patient
-#r = client.get('/patients')
-#contents = get_json(r)
-#print(contents)
-#patient = contents["patients"][-1]
+r = client.get('/patients')
+contents = get_json(r)
+patient = contents["patients"][-1]
 
 # testing patient_info
 #r = client.get( '/' + DOCTOR_ID + '/oldPatient')
