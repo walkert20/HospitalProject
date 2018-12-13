@@ -148,6 +148,15 @@ def doctor_info(doctorId):
 		}
 		})
 
+	doctor = db.getDoctor(doctorId)
+	return make_json_response({
+		"doctor": {
+			"name": (docotr.FirstName, doctor.LastName),
+			"profession":(doctor.profession),
+			"patients":(doctor.patients)
+		}
+		})
+
 @app.route('/doctor', methods = ['POST'])
 def create_doctor():
     doctorId = utils.makeId()
