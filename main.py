@@ -196,7 +196,6 @@ def addMedication(doctorId, patientId, medication):
         abort(404, "Provided doctor does not exist.")
     if patient.doctorId != doctor.id:
         abort(403, "You don't have that kind of access.")
-
     patientInfo = patient_info(doctorId, patientId)
     delete_patient(doctorId, patientId)
     db.addPatient_all(patientId, patientInfo['name'][0], patientInfo['name'][1],\
@@ -214,7 +213,6 @@ def addInfirmity(doctorId, patientId, infirmity):
         abort(404, "Provided doctor does not exist.")
     if patient.doctorId != doctor.id:
         abort(403, "You don't have that kind of access.")
-
     patientInfo = patient_info(doctorId, patientId)
     delete_patient(doctorId, patientId)
     db.addPatient_all(patientId, patientInfo['name'][0], patientInfo['name'][1],\
