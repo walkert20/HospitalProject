@@ -149,12 +149,12 @@ assert(r.status_code == 403)
 r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
 assert(r.status_code == 200)
 
-# Testing delete patient
-r = client.get('/patients')
-contents = get_json(r)
-patient = contents["patients"][-1]
-# Testing addMedication
-# testing addInfirmity
+#Testing delete patient
+#r = client.get('/patients')
+#contents = get_json(r)
+#patient = contents["patients"][-1]
+#Testing addMedication
+#testing addInfirmity
 
 
 print("######  DOCTOR TESTS  ######")
