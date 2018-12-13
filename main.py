@@ -69,7 +69,7 @@ def patient_info(doctorId, patientId):
         })
 
 
-@app.route('/', methods = ['POST'])
+@app.route('/patient', methods = ['POST'])
 def create_patient():
     patientId = utils.makeId()
     patients = db.getPatients()
@@ -118,11 +118,7 @@ def delete_patient(doctorId, patientId):
 
 
 @app.route('/doctors', methods = ['GET'])
-
-@app.route('/', methods = ['GET'])
-
 def doctor_list():
-	
     doctors = db.getDoctors()
     return make_json_response({
         "doctors":[
