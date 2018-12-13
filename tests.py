@@ -85,7 +85,7 @@ assert(Doctor_1.patients == [])
 db.commit()
 
 
-Testing setDoctorToPatient
+# Testing setDoctorToPatient
 assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
 assert(Doctor_1.patients == [])
@@ -96,7 +96,7 @@ assert(len(Doctor_1.patients) == 1)
 assert(Doctor_1.patients[0].id == PATIENT_ID)
 db.commit()
 
-Testing getDoctorPatients
+# Testing getDoctorPatients
 assert(Doctor_2.patients == [])
 lst = db.getDoctorPatients(Doctor_2.id)
 assert(len(lst) == 0)
@@ -149,12 +149,12 @@ assert(r.status_code == 403)
 r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
 assert(r.status_code == 200)
 
-Testing delete patient
+# Testing delete patient
 r = client.get('/patients')
 contents = get_json(r)
 patient = contents["patients"][-1]
-Testing addMedication
-testing addInfirmity
+# Testing addMedication
+# testing addInfirmity
 
 
 print("######  DOCTOR TESTS  ######")
