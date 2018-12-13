@@ -199,7 +199,7 @@ def addMedication(doctorId, patientId, medication):
 
     patientInfo = patient_info(doctorId, patientId)
     delete_patient(doctorId, patientId)
-    db.addPatient(patientId, patientInfo['name'][0], patientInfo['name'][1],\
+    db.addPatient_all(patientId, patientInfo['name'][0], patientInfo['name'][1],\
                   patientInfo['infirmity'], patientInfo['doctor'], medication,\
                   patientInfo['emition'])
     db.commit()
@@ -217,7 +217,7 @@ def addInfirmity(doctorId, patientId, infirmity):
 
     patientInfo = patient_info(doctorId, patientId)
     delete_patient(doctorId, patientId)
-    db.addPatient(patientId, patientInfo['name'][0], patientInfo['name'][1],\
+    db.addPatient_all(patientId, patientInfo['name'][0], patientInfo['name'][1],\
                   infirmity, patientInfo['doctor'], patientInfo['medication'],\
                   patientInfo['emition'])
     db.commit()
