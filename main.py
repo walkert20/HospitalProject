@@ -163,9 +163,12 @@ def create_doctor_with_id(doctorId):
         abort(403, "Must provide a first name.")
     if 'LastName' not in contents:
         abort(403, "Must include a last name.")
+    if 'profession' not in contents:
+        abort(403, "Must include a profession")
     FirstName = contents['FirstName']
     LastName = contents['LastName']
-    db.addDoctor(doctorId, FirstName, LastName)
+    profession = contents['profession']
+    db.addDoctor(doctorId, FirstName, LastName, profession)
     db.commit()
     return make_json_response({'ok':'Doctor was created successfully'}, 201)
 
