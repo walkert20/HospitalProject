@@ -48,7 +48,6 @@ def patient_list():
     })
 
 @app.route('/<doctorId>/<patientId>', methods = ['GET'])
-
 def patient_info(doctorId, patientId):
     patient = db.getPatient(patientId)
     if patient == None:
@@ -71,7 +70,6 @@ def patient_info(doctorId, patientId):
 
 
 @app.route('/', methods = ['POST'])
-
 def create_patient():
     patientId = utils.makeId()
     patients = db.getPatients()
@@ -117,7 +115,6 @@ def delete_patient(doctorId, patientId):
 
 
 # Doctor routes
-# asdasd
 
 
 @app.route('/doctors', methods = ['GET'])
@@ -138,7 +135,6 @@ def doctor_list():
         })
 
 @app.route('/<doctorId>', methods = ['GET'])
-
 def doctor_info(doctorId):
 	doctor = db.getDoctor(doctorId)
 	return make_json_response({
@@ -168,7 +164,6 @@ def create_doctor():
     return create_doctor_with_id(doctorId)
 
 @app.route('/<doctorId>', methods = ['PUT'])
-
 def create_doctor_with_id(doctorId):
     doctors = db.getDoctors()
     ids = [doctor.id for doctor in doctors]
