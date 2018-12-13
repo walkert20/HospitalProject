@@ -81,8 +81,8 @@ class Db:
 
 #SETS A DOCTOR TO A PATIENT
    def setDoctorToPatient(self, doctorId, patientId):
-      doctor = getDoctor(doctorId)
-      patient = getPatient(patientId)
+      doctor = self.getDoctor(doctorId)
+      patient = self.getPatient(patientId)
       if doctor != None and patient != None:
          patient.doctorId = doctor.id
 
