@@ -115,3 +115,10 @@ class Db:
 #CREATES A PATIENT USING THE DEFAULT NAMES
    def addPatient_default(self, id):
       return self.session.add(Patient(id = id))
+
+#CREATES A PATIENT WITH THE GIVEN ID, FIRST NAME, LAST NAME, INFIRMITY, DOCTOR, AND DATE OF EMMISION
+   def addPatient_all(self, id, FirstName, LastName, doctor, medication, infirmity, date_of_emition):
+      patient = Patient(id=id, FirstName=FirstName, LastName=LastName, \
+         medication=medication, infirmity=infirmity, date_of_emition=date_of_emition)
+      self.setDoctorToPatient(doctor.id, id)
+      return self.session.add(patient)
