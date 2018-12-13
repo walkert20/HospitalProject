@@ -85,7 +85,7 @@ assert(Doctor_1.patients == [])
 db.commit()
 
 
-# Testing setDoctorToPatient
+Testing setDoctorToPatient
 assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
 assert(Doctor_1.patients == [])
@@ -96,7 +96,7 @@ assert(len(Doctor_1.patients) == 1)
 assert(Doctor_1.patients[0].id == PATIENT_ID)
 db.commit()
 
-# Testing getDoctorPatients
+Testing getDoctorPatients
 assert(Doctor_2.patients == [])
 lst = db.getDoctorPatients(Doctor_2.id)
 assert(len(lst) == 0)
@@ -120,6 +120,7 @@ assert(r.status_code == 200)
 contents = get_json(r)
 assert("patients" in contents)
 assert(len(contents["patients"]) == 2) 		#Because of the already created patients
+
 # testing create a patient with ID
 r = client.put('/' + PATIENT_ID)
 assert(r.status_code == 403)
@@ -130,6 +131,7 @@ assert(r.status_code == 403)
 r = client.put('/newPatient', data=json.dumps({"FirstName":"Tom", "LastName":"Wilks"}), content_type='application/json')
 contents = get_json(r)
 assert(r.status_code == 201)
+
 # testing create a patient without ID
 r = client.post('/patient')
 assert(r.status_code == 403)
@@ -147,12 +149,12 @@ assert(r.status_code == 403)
 r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
 assert(r.status_code == 200)
 
-# Testing delete patient
-#r = client.get('/patients')
-#contents = get_json(r)
-#patient = contents["patients"][-1]
-# Testing addMedication
-# testing addInfirmity
+Testing delete patient
+r = client.get('/patients')
+contents = get_json(r)
+patient = contents["patients"][-1]
+Testing addMedication
+testing addInfirmity
 
 
 print("######  DOCTOR TESTS  ######")
