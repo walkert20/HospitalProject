@@ -117,6 +117,7 @@ def delete_patient(doctorId, patientId):
 
 
 # Doctor routes
+# asdasd
 
 
 @app.route('/doctors', methods = ['GET'])
