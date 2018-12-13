@@ -178,13 +178,10 @@ def delete_doctor(doctorId):
     ids = [doctor.id for doctor in doctors]
     if doctorId not in ids:
         abort(404, "There isn't a doctor with this id.")
-    patient = db.getDoctor(patientId)
-    doctor = db.getPatient(doctorId)
-    if patient == None:
-        abort(404, "Provided patient does not exist.")
-    if doctor.patientId != patient.id:
-        abort(403, "You don't have that kind of access.")
-    db.deleteDoctor(patient)
+    doctor = db.getDoctor(doctorId)
+    if doctor == None:
+        abort(404, "Provided doctor does not exist.")
+    db.deleteDoctor(doctor)
     db.commit()
     return make_json_response({'ok':'Doctor was deleted successfully'}, 204)
 
