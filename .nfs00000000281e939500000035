@@ -48,7 +48,6 @@ def patient_list():
     })
 
 @app.route('/<doctorId>/<patientId>', methods = ['GET'])
-
 def patient_info(doctorId, patientId):
     patient = db.getPatient(patientId)
     if patient == None:
@@ -71,28 +70,6 @@ def patient_info(doctorId, patientId):
 
 
 @app.route('/patient', methods = ['POST'])
-
-def patient_info(patientId, doctorId):
-	patient = db.getPatient(patientId)
-	if patient == None:
-		abort(404, "Provided patient does not exist.")
-	doctor = db.getDoctor(doctorId)
-	if doctor == None:
-		abort(404, "Provided doctor does not exist.")
-	if patient.doctorId != doctor.id:
-		abort(403, "You don't have access to this patient's file.")
-	return make_json_response({
-		"id": patient.id,
-		"name": (patient.FirstName, patient.LastName),
-		"illness" : patient.infirmity,
-		"doctor": patient.doctor,
-		"medications":patient.medication,
-		"emition":patient.date_of_emition,
-		})
-
-
-@app.route('/', methods = ['POST'])
-
 def create_patient():
     patientId = utils.makeId()
     patients = db.getPatients()
@@ -139,11 +116,7 @@ def delete_patient(doctorId, patientId):
 
 # Doctor routes
 
-
 @app.route('/doctors', methods = ['GET'])
-
-@app.route('/', methods = ['GET'])
-
 def doctor_list():
     doctors = db.getDoctors()
     return make_json_response({
@@ -158,60 +131,19 @@ def doctor_list():
 
 @app.route('/<doctorId>', methods = ['GET'])
 def doctor_info(doctorId):
-
-	doctor = db.getDoctor(doctorId)
-	return make_json_response({
-		"doctor": {
-			"name": (docotr.FirstName, doctor.LastName),
-			"profession":(doctor.profession),
-			"patients":(doctor.patients)
-		}
-		})
+    pass
 
 @app.route('/doctor', methods = ['POST'])
 def create_doctor():
-    doctorId = utils.makeId()
-    doctors = db.getDoctors()
-    ids = [docotr.id for docotr in doctors]
-    while doctorId in ids:
-        doctorId = utils.makeId()
-    return create_doctor_with_id(doctorId)
+    pass
 
 @app.route('/<doctorId>', methods = ['PUT'])
 def create_doctor_with_id(doctorId):
-    doctors = db.getDoctors()
-    ids = [doctor.id for doctor in doctors]
-    if doctorId in ids:
-        abort(403, "This doctor already exists.")
-    contents = request.get_json()
-    if contents == None:
-        abort(403, "You sent nothing.")
-    if 'FirstName' not in contents:
-        abort(403, "Must provide a first name.")
-    if 'LastName' not in contents:
-        abort(403, "Must include a last name.")
-    FirstName = contents['FirstName']
-    LastName = contents['LastName']
-    db.addDoctor(doctorId, FirstName, LastName)
-    db.commit()
-    return make_json_response({'ok':'Doctor was created successfully'}, 201)
+    pass
 
 @app.route('/<doctorId>', methods = ['DELETE'])
 def delete_doctor(doctorId):
-    doctors = db.getDoctor()
-    ids = [doctor.id for doctor in doctors]
-    if doctorId not in ids:
-        abort(404, "There isn't a doctor with this id.")
-    patient = db.getDoctor(patientId)
-    doctor = db.getPatient(doctorId)
-    if patient == None:
-        abort(404, "Provided patient does not exist.")
-    if doctor.patientId != patient.id:
-        abort(403, "You don't have that kind of access.")
-    db.deleteDoctor(patient)
-    db.commit()
-    return make_json_response({'ok':'Doctor was deleted successfully'}, 204)
-
+    pass
 
 @app.route('/<doctorId>/<patientId>/<medication>', methods = ['POST'])
 def addMedication(doctorId, patientId, medication):

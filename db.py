@@ -12,36 +12,31 @@ class Doctor(Base):
    __tablename__ = "doctor"
 
    id          = Column('id',String(), nullable = False, primary_key = True)  #THE ID OF THE DOCTOR CREATED BY THE SYSTEM
-   FirstName   = Column('first',String(), nullable = False, default = "Mary")                   #THE FIRST NAME OF THE DOCTOR
-   LastName    = Column('last',String(), nullable = False, default = "Allan")                    #THE LAST NAME OF THE DOCTOR
+   FirstName   = Column('first',String(), nullable = False, default = "Mary") #THE FIRST NAME OF THE DOCTOR
+   LastName    = Column('last',String(), nullable = False, default = "Allan") #THE LAST NAME OF THE DOCTOR
    profession  = Column('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
-   patients    = relationship("Patient", back_populates = "doctor")            #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
+   patients    = relationship("Patient", back_populates = "doctor")           #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
    #Note: doctor.patients is a list(somehow). Therefore, no patients means an empty list.
-   def __repr__(self):
-      return "Doctor<%s %s>" % (self.FirstName, self.LastName)
-
    
 
 # Patient class
 class Patient(Base):
    __tablename__ = "patient"
 
-   id                = Column('id',String(), nullable = False, primary_key = True)                  #ID OF PATIENT
-   FirstName         = Column('first',String(), default = "Jane")                                   #FIRST NAME OF PATIENT
-   LastName          = Column('last',String(), default = "Doe")                                     #LAST NAME OF PATIENT
-   date_of_emition   = Column('emition', DateTime, default = datetime.now())                        #DATE PATIENT WAS EMITED
+   id                = Column('id',String(), nullable = False, primary_key = True)  #ID OF PATIENT
+   FirstName         = Column('first',String(), default = "Jane")                   #FIRST NAME OF PATIENT
+   LastName          = Column('last',String(), default = "Doe")                     #LAST NAME OF PATIENT
+   date_of_emition   = Column('emition', DateTime, default = datetime.now())        #DATE PATIENT WAS EMITED
    doctorId          = Column('doctorId', String(), ForeignKey("doctor.id"))
    infirmity         = Column('infirmity', String(), default = None)
    medication        = Column('medication', String(), default = None)
-   doctor            = relationship("Doctor", back_populates = "patients")                          #WHAT DOCTOR/S THE PATIENT HAS
-   def __repr__(self):
-      return "Patient<%s %s %s %s %s %s>" % (self.id, self.FirstName, self.LastName,\
-                                             self.doctorId, self.infirmity, self.medication)
+   doctor            = relationship("Doctor", back_populates = "patients")          #WHAT DOCTOR/S THE PATIENT HAS
+
 
 #Database and our interactions with it
 class Db:
    def __init__(self):
-      engineName = 'sqlite:///test.db'   # Uses in-memory database
+      engineName = 'sqlite:///test.db'              # Uses in-memory database
       self.engine = create_engine(engineName)
       self.metadata = Base.metadata
       self.metadata.bind = self.engine
@@ -86,17 +81,15 @@ class Db:
 
 #SETS A DOCTOR TO A PATIENT
    def setDoctorToPatient(self, doctorId, patientId):
-      doctor = self.getDoctor(doctorId)
-      patient = self.getPatient(patientId)
+      doctor = getDoctor(doctorId)
+      patient = getPatient(patientId)
       if doctor != None and patient != None:
          patient.doctorId = doctor.id
-         patient.doctor = doctor
 
 #RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
-   def getDoctorPatients(self, doctorId):
-      doctor = self.getDoctor(doctorId)
-      return doctor.patients
-
+   def getdoctorPatients(self, doctorId):
+      self.session.query(Patient).filter_by(doctorId = doctorId)\
+      .all()
 
 
 # Patient methods
