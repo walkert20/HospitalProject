@@ -90,8 +90,10 @@ assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
 assert(Doctor_1.patients == [])
 db.setDoctorToPatient(DOCTOR_ID, PATIENT_ID)
+
 assert(patient_1.doctorId is not None)
 assert(patient_1.doctor is not None)
+
 assert(len(Doctor_1.patients) == 1)
 assert(Doctor_1.patients[0].id == PATIENT_ID)
 db.commit()

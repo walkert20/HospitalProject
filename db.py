@@ -84,7 +84,7 @@ class Db:
       doctor = self.getDoctor(doctorId)
       patient = self.getPatient(patientId)
       if doctor != None and patient != None:
-         patient.doctorId = doctor.id
+         doctor.patients.append(patient)
 
 #RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
    def getdoctorPatients(self, doctorId):
