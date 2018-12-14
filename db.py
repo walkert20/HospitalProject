@@ -16,7 +16,7 @@ class Doctor(Base):
    LastName    = Column('last',String(), nullable = False, default = "Allan") #THE LAST NAME OF THE DOCTOR
    profession  = Column('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
    patients    = relationship("Patient", back_populates = "doctor")           #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
-    def __repr__(self): 
+   def __repr__(self): 
       return "Doctor<%s %s>" % (self.FirstName, self.LastName) 
    #Note: doctor.patients is a list(somehow). Therefore, no patients means an empty list.
    
@@ -88,10 +88,11 @@ class Db:
       doctor = self.getDoctor(doctorId)
       patient = self.getPatient(patientId)
       if doctor != None and patient != None:
-         doctor.patients.append(patient)
+         patient.doctorId = doctorId
+         patient.doctor = doctor
 
 #RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
-   def getdoctorPatients(self, doctorId):
+   def getDoctorPatients(self, doctorId):
       doctor = self.getDoctor(doctorId)
       return doctor.patients
 
