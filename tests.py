@@ -163,9 +163,19 @@ r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
 assert(r.status_code == 200)
 
 #Testing delete patient
-#r = client.get('/patients')
-#contents = get_json(r)
-#patient = contents["patients"][-1]
+r = client.get('/patients')
+contents = get_json(r)
+patient = contents["patients"][-1]
+r = client.delete('/DoctorId/newPatient')
+assert(r.status_code == 404)
+r = client.delete('/DoctorId/' + patient_2.id)
+assert(r.status_code == 404)
+r = client.delete('/' + DOCTOR_ID + '/' + patient_2.id)
+assert(r.status_code == 403)
+r = client.delete('/' + DOCTOR_ID + '/' + PATIENT_ID)
+assert(r.status_code == 204)
+
+
 #Testing addMedication
 #testing addInfirmity
 

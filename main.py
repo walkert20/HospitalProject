@@ -100,7 +100,7 @@ def create_patient_with_id(patientId):
 @app.route('/<doctorId>/<patientId>', methods = ['DELETE'])
 def delete_patient(doctorId, patientId):
     patients = db.getPatients()
-    ids = [patient.id for patinet in patients]
+    ids = [patient.id for patient in patients]
     if patientId not in ids:
         abort(404, "There isn't a patient with this id.")
     patient = db.getPatient(patientId)
