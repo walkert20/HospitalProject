@@ -16,6 +16,8 @@ class Doctor(Base):
    LastName    = Column('last',String(), nullable = False, default = "Allan") #THE LAST NAME OF THE DOCTOR
    profession  = Column('profession',String(), nullable = False)              #THE PROFESSION OF THE DOCTOR
    patients    = relationship("Patient", back_populates = "doctor")           #THE RELATIONSHIP BETWEEN PATIENT AND DOCTOR
+    def __repr__(self): 
+      return "Doctor<%s %s>" % (self.FirstName, self.LastName) 
    #Note: doctor.patients is a list(somehow). Therefore, no patients means an empty list.
    
 
@@ -31,7 +33,9 @@ class Patient(Base):
    infirmity         = Column('infirmity', String(), default = None)
    medication        = Column('medication', String(), default = None)
    doctor            = relationship("Doctor", back_populates = "patients")          #WHAT DOCTOR/S THE PATIENT HAS
-
+   def __repr__(self): 
+      return "Patient<%s %s %s %s %s %s>" % (self.id, self.FirstName, self.LastName,\
+                                             self.doctorId, self.infirmity, self.medication) 
 
 #Database and our interactions with it
 class Db:

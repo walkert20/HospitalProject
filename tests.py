@@ -90,7 +90,9 @@ assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
 assert(Doctor_1.patients == [])
 db.setDoctorToPatient(DOCTOR_ID, PATIENT_ID)
-
+print(patient_1.doctorId) 
+print(patient_1.doctor)
+print(Doctor_1.id) 
 assert(patient_1.doctorId is not None)
 assert(patient_1.doctor is not None)
 
