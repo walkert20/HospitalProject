@@ -91,6 +91,7 @@ class Db:
          patient.doctorId = doctorId
          patient.doctor = doctor
 
+
 #RETRIEVES ALL PATIENTS ASSIGNED TO A PARTICULAR DOCTOR
    def getDoctorPatients(self, doctorId):
       doctor = self.getDoctor(doctorId)
@@ -123,7 +124,7 @@ class Db:
 
 #CREATES A PATIENT WITH THE GIVEN ID, FIRST NAME, LAST NAME, INFIRMITY, DOCTOR, AND DATE OF EMMISION
    def addPatient_all(self, id, FirstName, LastName, doctor, medication, infirmity, date_of_emition):
-      patient = Patient(id=id, FirstName=FirstName, LastName=LastName, \
+      patient = Patient(id=id, FirstName=FirstName, LastName=LastName, doctor=doctor,\
          medication=medication, infirmity=infirmity, date_of_emition=date_of_emition)
-      self.setDoctorToPatient(doctor.id, id)
+      #self.setDoctorToPatient(doctor.id, patient.id)
       return self.session.add(patient)

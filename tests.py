@@ -2,6 +2,7 @@ from main import app, db
 from utils import makeId, getHash
 import utils
 import json
+from datetime import datetime, timedelta   #for testing
 
 session = db.session
 
@@ -90,22 +91,30 @@ assert(patient_1.doctorId is None)
 assert(patient_1.doctor is None)
 assert(Doctor_1.patients == [])
 db.setDoctorToPatient(DOCTOR_ID, PATIENT_ID)
-print(patient_1.doctorId) 
-print(patient_1.doctor)
-print(Doctor_1.id) 
 assert(patient_1.doctorId is not None)
 assert(patient_1.doctor is not None)
-
 assert(len(Doctor_1.patients) == 1)
 assert(Doctor_1.patients[0].id == PATIENT_ID)
 db.commit()
-
 # Testing getDoctorPatients
 assert(Doctor_2.patients == [])
 lst = db.getDoctorPatients(Doctor_2.id)
 assert(len(lst) == 0)
 lst = db.getDoctorPatients(Doctor_1.id)
 assert(len(lst) == 1)
+db.commit()
+# Testing addPatient_all
+patient_3 = db.getPatient(9)
+assert(patient_3 == None)
+lst = db.getDoctors()
+doc = lst[0]
+db.addPatient_all(id=9, FirstName="Kevin", LastName="Prat", doctor=doc,\
+			medication="advil",infirmity="headach", date_of_emition=datetime(2018,10,6,8,0,0))
+patient = db.getPatient(9)
+assert(patient != None)
+assert(patient.FirstName == "Kevin")
+assert(patient.LastName == "Prat")
+assert(patient.doctor == doc)
 
 
 print("############### DB TESTS DONE ##################")
@@ -123,7 +132,7 @@ r = client.get('/patients')
 assert(r.status_code == 200)
 contents = get_json(r)
 assert("patients" in contents)
-assert(len(contents["patients"]) == 2) 		#Because of the already created patients
+assert(len(contents["patients"]) == 3) 		#Because of the already created patients
 
 # testing create a patient with ID
 r = client.put('/' + PATIENT_ID)
