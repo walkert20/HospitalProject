@@ -126,5 +126,4 @@ class Db:
    def addPatient_all(self, id, FirstName, LastName, doctor, medication, infirmity, date_of_emition):
       patient = Patient(id=id, FirstName=FirstName, LastName=LastName, doctor=doctor,\
          medication=medication, infirmity=infirmity, date_of_emition=date_of_emition)
-      #self.setDoctorToPatient(doctor.id, patient.id)
       return self.session.add(patient)
