@@ -163,9 +163,6 @@ r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
 assert(r.status_code == 200)
 
 #Testing delete patient
-r = client.get('/patients')
-contents = get_json(r)
-patient = contents["patients"][-1]
 r = client.delete('/DoctorId/newPatient')
 assert(r.status_code == 404)
 r = client.delete('/DoctorId/' + patient_2.id)
@@ -174,9 +171,20 @@ r = client.delete('/' + DOCTOR_ID + '/' + patient_2.id)
 assert(r.status_code == 403)
 r = client.delete('/' + DOCTOR_ID + '/' + PATIENT_ID)
 assert(r.status_code == 204)
-
+r = client.get('/' + DOCTOR_ID + '/' + PATIENT_ID)
+assert(r.status_code == 404)
 
 #Testing addMedication
+r = client.get( '/' + doc.id + '/' + patient.id)
+assert(r.status_code == 200)
+assert(patient.doctor != None)
+contents = get_json(r)
+assert("medication" in contents)
+assert(contents['medication'] != None)
+r = client.post('/' + doc.id + '/' + patient.id + '/<medication>', \
+	data=json.dumps({"medication":"Tylonol"}), content_type='application/json')
+assert(r.status_code == 204)
+
 #testing addInfirmity
 
 

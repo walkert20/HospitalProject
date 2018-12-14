@@ -196,12 +196,16 @@ def addMedication(doctorId, patientId, medication):
         abort(404, "Provided doctor does not exist.")
     if patient.doctorId != doctor.id:
         abort(403, "You don't have that kind of access.")
-    patientInfo = patient_info(doctorId, patientId)
+    tempPatient = patient
+    contents = request.get_json()
     delete_patient(doctorId, patientId)
-    db.addPatient_all(patientId, patientInfo['name'][0], patientInfo['name'][1],\
-                  patientInfo['infirmity'], patientInfo['doctor'], medication,\
-                  patientInfo['emition'])
+    db.addPatient_all(tempPatient.id, tempPatient.FirstName, tempPatient.LastName,\
+                  tempPatient.infirmity, tempPatient.doctor, contents['medication'],\
+                  tempPatient.date_of_emition)
     db.commit()
+    del tempPatient
+    return make_json_response({'ok':'Database updated successfully.'}, 204)
+
 
 @app.route('/<doctorId>/<patientId>/<infirmity>', methods = ['POST'])
 def addInfirmity(doctorId, patientId, infirmity):
@@ -219,6 +223,7 @@ def addInfirmity(doctorId, patientId, infirmity):
                   infirmity, patientInfo['doctor'], patientInfo['medication'],\
                   patientInfo['emition'])
     db.commit()
+    return make_json_response({'ok':'Database updated successfully.'}, 204)
 
 
 # Starts the application
