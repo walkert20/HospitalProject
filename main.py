@@ -185,47 +185,6 @@ def delete_doctor(doctorId):
     db.commit()
     return make_json_response({'ok':'Doctor was deleted successfully'}, 204)
 
-
-@app.route('/<doctorId>/<patientId>/<medication>', methods = ['POST'])
-def addMedication(doctorId, patientId, medication):
-    patient = db.getPatient(patientId)
-    if patient == None:
-        abort(404, "Provided patient does not exist.")
-    doctor = db.getDoctor(doctorId)
-    if doctor == None:
-        abort(404, "Provided doctor does not exist.")
-    if patient.doctorId != doctor.id:
-        abort(403, "You don't have that kind of access.")
-    tempPatient = patient
-    contents = request.get_json()
-    delete_patient(doctorId, patientId)
-    db.addPatient_all(tempPatient.id, tempPatient.FirstName, tempPatient.LastName,\
-                  tempPatient.infirmity, tempPatient.doctor, contents['medication'],\
-                  tempPatient.date_of_emition)
-    db.commit()
-    del tempPatient
-    return make_json_response({'ok':'Database updated successfully.'}, 204)
-
-
-@app.route('/<doctorId>/<patientId>/<infirmity>', methods = ['POST'])
-def addInfirmity(doctorId, patientId, infirmity):
-    patient = db.getPatient(patientId)
-    if patient == None:
-        abort(404, "Provided patient does not exist.")
-    doctor = db.getDoctor(doctorId)
-    if doctor == None:
-        abort(404, "Provided doctor does not exist.")
-    if patient.doctorId != doctor.id:
-        abort(403, "You don't have that kind of access.")
-    patientInfo = patient_info(doctorId, patientId)
-    delete_patient(doctorId, patientId)
-    db.addPatient_all(patientId, patientInfo['name'][0], patientInfo['name'][1],\
-                  infirmity, patientInfo['doctor'], patientInfo['medication'],\
-                  patientInfo['emition'])
-    db.commit()
-    return make_json_response({'ok':'Database updated successfully.'}, 204)
-
-
 # Starts the application
 if __name__ == "__main__":
    app.run()
