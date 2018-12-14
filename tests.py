@@ -181,9 +181,9 @@ assert(patient.doctor != None)
 contents = get_json(r)
 assert("medication" in contents)
 assert(contents['medication'] != None)
-r = client.post('/' + doc.id + '/' + patient.id + '/<medication>', \
-	data=json.dumps({"medication":"Tylonol"}), content_type='application/json')
-assert(r.status_code == 204)
+#r = client.post('/' + doc.id + '/' + patient.id + '/<medication>', \
+#	data=json.dumps({"medication":"Tylonol"}), content_type='application/json')
+#assert(r.status_code == 204)
 
 #testing addInfirmity
 
