@@ -27,9 +27,3 @@ API paths and methods:
   
  /doctor
     POST: Creates a doctor with an auto-generated ID (A first name, last name, and profession must be given in request).
-    
- /<doctorId>/<patientId>/<medication>
-    POST: Alter a patients medication info (A docotor ID, patient ID, and a medication of some kind is required in the request and      the doctor must be assigned to that patient).
-  
- /<doctorId>/<patientId>/<infirmity>
-    POST: Alter a patients infirmity info (A docotor ID, patient ID, and a infirmity of some kind is required in the request and      the doctor must be assigned to that patient).
